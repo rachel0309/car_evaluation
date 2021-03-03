@@ -1,0 +1,43 @@
+# car_evaluation
+Codeacademy Summarizing Automobile Evaluation Data
+import pandas as pd
+import numpy as np
+
+car_eval = pd.read_csv('car_eval_dataset.csv')
+#print(car_eval.head())
+
+#look for the car manufacturer review frequency 
+country_frequency = car_eval['manufacturer_country'].value_counts()
+#print(country_frequency)
+#print(country_frequency.index[3])
+
+#look for the car manufacturer review proportion
+country_proportion = car_eval['manufacturer_country'].value_counts(dropna= False, normalize = True)
+#print(country_proportion)
+
+buying_cost_lst = car_eval.buying_cost.unique()
+print(buying_cost_lst)
+
+#convert buying_cost column to category type for numeric operation purpose
+buying_cost_categories = ['low', 'med', 'high', 'vhigh']
+car_eval['buying_cost'] = pd.Categorical(car_eval['buying_cost'], buying_cost_categories, ordered=True)
+buying_cost_median = np.median(car_eval['buying_cost'].cat.codes)
+print(buying_cost_median)
+print(buying_cost_categories[int(buying_cost_median)])
+
+#calculate table proportion for luggage
+luggage_proportion = car_eval['luggage'].value_counts(dropna = False, normalize = True)
+print(luggage_proportion)
+
+#find the count of cars with 5+ doors
+print(car_eval['doors'].unique())
+fivedoor_frequency = (car_eval['doors']=='5more').sum()
+print(fivedoor_frequency)
+fivedoor_proportion = (car_eval['doors']=='5more').mean()
+print(fivedoor_proportion)
+
+
+
+
+
+
